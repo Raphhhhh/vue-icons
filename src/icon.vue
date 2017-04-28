@@ -32,7 +32,7 @@ module.exports =
   ]
 
   props:
-    style:
+    css:
       default: -> []
     name:
       type: String

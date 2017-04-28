@@ -53,7 +53,7 @@
     }
   };
 
-  ref = ["name", "offsetX", "offsetY", "flipH", "flipV", "label", "style"];
+  ref = ["name", "offsetX", "offsetY", "flipH", "flipV", "label", "css"];
   for (j = 0, len = ref.length; j < len; j++) {
     prop = ref[j];
     ifc.props[prop] = i.props[prop];

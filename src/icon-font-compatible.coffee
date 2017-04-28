@@ -28,7 +28,7 @@ ifc =
     widthRatio: -> 1
     mergeStyle: -> {height: @outerHeight + "px"}
 
-for prop in ["name","offsetX","offsetY","flipH","flipV","label","style"]
+for prop in ["name","offsetX","offsetY","flipH","flipV","label","css"]
   ifc.props[prop] = i.props[prop]
 for c in ["processedName","icon","box","aspect","flipped","heightRatio"]
   ifc.computed[c] = i.computed[c]

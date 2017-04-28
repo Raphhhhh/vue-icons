@@ -25,7 +25,7 @@ if (process.env.NODE_ENV !== 'production' && (typeof getIcon === "undefined" || 
 module.exports = {
   mixins: [require("vue-mixins/vue"), require("vue-mixins/style"), require("vue-mixins/onWindowResize")],
   props: {
-    style: {
+    css: {
       "default": function() {
         return [];
       }
