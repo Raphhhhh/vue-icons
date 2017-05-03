@@ -13,8 +13,6 @@ comes with (and prefixes):
 - [ratchicons](http://goratchet.com/components/#ratchicons) - `ra` - add `and` for android version `ra-download` -> `ra-and-download`
 
 
-### [Demo](https://vue-comps.github.io/vue-icons)
-
 heavily inspired by [vue-awesome](https://github.com/Justineo/vue-awesome).
 
 # Install
@@ -25,23 +23,27 @@ npm install --save-dev vue-icons callback-loader
 
 ## Usage
 
-webpack.config:
-```coffee
-module:
-  loaders: [
-    # your loaders
-  ]
-  postLoaders: [
-    { test: /vue-icons/, loader: "callback-loader"}
-  ]
-callbackLoader:
-  require("vue-icons/icon-loader")(["fa-thumbs-up"]) # add all the icons you need
+In module.rules:
+```
+{
+  test: /vue-icons/,
+  loader: 'callback-loader',
+  enforce: 'post'
+}
+```
+
+in plugins:
+```
+new webpack.LoaderOptionsPlugin({
+  options: {
+    callbackLoader: require('vue-icons/icon-loader')(['material-add', 'material-remove'])
+  }
+})
 ```
 
 in your component:
-```coffee
-components:
-  "icon": require("vue-icons")
+```
+import 'vue-icons'
 ```
 ```html
 <icon name="fa-thumbs-up"></icon>
