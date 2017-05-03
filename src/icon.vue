@@ -1,130 +1,197 @@
-// out: ..
-<template lang="pug">
-span(v-bind:style="computedStyle")
-  svg(version="1.1",
-    :role="label ? 'img' : 'presentation'",
-    :aria-label="label",
-    :width="outerWidth",
-    :height="outerHeight",
-    :viewBox="box"
-    )
-    path(
-      :d="icon.d",
-      :transform="flipped",
-      fill="currentColor")
-  slot
+<template>
+  <span v-bind:style="computedStyle">
+    <svg version="1.1" :role="label ? 'img' : 'presentation'" :aria-label="label" :width="outerWidth" :height="outerHeight" :viewBox="box">
+      <path :d="icon.d" :transform="flipped" fill="currentColor"></path>
+    </svg>
+    <slot></slot>
+  </span>
 </template>
 
-<script lang="coffee" >
-camelize = (str) -> str.replace /-(\w)/g, (_, c) -> if c then c.toUpperCase() else ''
-getIcons = ->
-getIcons()
-if process.env.NODE_ENV != 'production' and not getIcon?
-  console.error "icon-loader wasn't called - please see vue-icons documentation on how to setup webpack"
-  getIcon = (name1,name2)->
-    console.error "vue-icons isn't setup properly - failed to get #{name1}-#{name2}"
-module.exports =
+<script>
+var camelize, getIcon, getIcons;
 
-  mixins: [
-    require "vue-mixins/vue"
-    require "vue-mixins/style"
-    require "vue-mixins/onWindowResize"
-  ]
+camelize = function(str) {
+  return str.replace(/-(\w)/g, function(_, c) {
+    if (c) {
+      return c.toUpperCase();
+    } else {
+      return '';
+    }
+  });
+};
 
-  props:
-    css:
-      default: -> []
-    name:
-      type: String
-      required: true
-    size:
-      type: Number
-      default: 16
-    scale:
-      type: Number
-      default: 1
-    offsetX:
-      type: Number
-      default: 0
-    offsetY:
-      type: Number
-      default: 0
-    flipH:
-      type: Boolean
-      default: false
-    flipV:
-      type: Boolean
-      default: false
-    label: String
-    hcenter:
-      type: Boolean
-      default: false
+getIcons = function() {};
 
-  data: ->
-    parent: null
-    children: []
-  mounted: ->
-    for child in @$children
-      if child.isStack
-        @children.push child
-    @$nextTick ->
-      @parent = @$el.parentElement
-      @onWindowResize =>
-        if @hcenter
-          @parent = @$el.parentElement
+getIcons();
 
-  computed:
-    processedName: ->
-      tmp = @name.split("-")
-      set = tmp.shift()
-      return [set,tmp.join("-")]
-    icon: ->
-      getIcon(@processedName[0],camelize(@processedName[1]))
-    box: ->
-      return null unless @heightRatio
-      w = @icon.w
-      h = @icon.h
-      wOffset = -w*((@widthRatio-1)/2+@offsetX/100)
-      hOffset = -h*((@heightRatio-1)/2-@offsetY/100)
-      if @flipV
-        s = "-#{w+wOffset} "
-      else
-        s = "#{wOffset} "
-      if @flipH
-        s += "-#{h+hOffset} "
-      else
-        s += "#{hOffset} "
-      return s+"#{w*@widthRatio} #{h*@heightRatio}"
-    aspect: -> @icon.w / @icon.h
-    innerWidth: -> @aspect * @innerHeight
-    outerWidth: ->
-      w = @innerWidth
-      for child in @children
-        cw = child.innerWidth*(1+Math.abs(child.offsetX)/50)
-        w = cw if cw > w
-      return w
-    widthRatio: -> @outerWidth/@innerWidth
-    innerHeight: -> @size*@scale
-    outerHeight: ->
-      if @hcenter and @parent?
-        return @parent.clientHeight
-      h = @innerHeight
-      for child in @children
-        ch = child.innerHeight*(1+Math.abs(child.offsetY)/50)
-        h = ch if ch > h
-      return h
-    heightRatio: -> @outerHeight/@innerHeight
-    flipped: ->
-      return null unless @flipH or @flipV
-      return "scale(#{-@flipV*2+1},#{-@flipH*2+1})"
-    mergeStyle: ->
-      style = {
-        display: "inline-block"
-        height: @outerHeight + "px"
+if (process.env.NODE_ENV !== 'production' && (typeof getIcon === "undefined" || getIcon === null)) {
+  console.error("icon-loader wasn't called - please see vue-icons documentation on how to setup webpack");
+  getIcon = function(name1, name2) {
+    return console.error("vue-icons isn't setup properly - failed to get " + name1 + "-" + name2);
+  };
+}
+
+module.exports = {
+  mixins: [require("vue-mixins/vue"), require("vue-mixins/style"), require("vue-mixins/onWindowResize")],
+  props: {
+    css: {
+      "default": function() {
+        return [];
       }
-      if @children?.length > 0
-        style.position = "relative"
-      #style.paddingTop = @marginTop + "px" if @marginTop
-      return style
+    },
+    name: {
+      type: String,
+      required: true
+    },
+    size: {
+      type: Number,
+      "default": 16
+    },
+    scale: {
+      type: Number,
+      "default": 1
+    },
+    offsetX: {
+      type: Number,
+      "default": 0
+    },
+    offsetY: {
+      type: Number,
+      "default": 0
+    },
+    flipH: {
+      type: Boolean,
+      "default": false
+    },
+    flipV: {
+      type: Boolean,
+      "default": false
+    },
+    label: String,
+    hcenter: {
+      type: Boolean,
+      "default": false
+    }
+  },
+  data: function() {
+    return {
+      parent: null,
+      children: []
+    };
+  },
+  mounted: function() {
+    var child, i, len, ref;
+    ref = this.$children;
+    for (i = 0, len = ref.length; i < len; i++) {
+      child = ref[i];
+      if (child.isStack) {
+        this.children.push(child);
+      }
+    }
+    return this.$nextTick(function() {
+      this.parent = this.$el.parentElement;
+      return this.onWindowResize((function(_this) {
+        return function() {
+          if (_this.hcenter) {
+            return _this.parent = _this.$el.parentElement;
+          }
+        };
+      })(this));
+    });
+  },
+  computed: {
+    processedName: function() {
+      var set, tmp;
+      tmp = this.name.split("-");
+      set = tmp.shift();
+      return [set, tmp.join("-")];
+    },
+    icon: function() {
+      return getIcon(this.processedName[0], camelize(this.processedName[1]));
+    },
+    box: function() {
+      var h, hOffset, s, w, wOffset;
+      if (!this.heightRatio) {
+        return null;
+      }
+      w = this.icon.w;
+      h = this.icon.h;
+      wOffset = -w * ((this.widthRatio - 1) / 2 + this.offsetX / 100);
+      hOffset = -h * ((this.heightRatio - 1) / 2 - this.offsetY / 100);
+      if (this.flipV) {
+        s = "-" + (w + wOffset) + " ";
+      } else {
+        s = wOffset + " ";
+      }
+      if (this.flipH) {
+        s += "-" + (h + hOffset) + " ";
+      } else {
+        s += hOffset + " ";
+      }
+      return s + ((w * this.widthRatio) + " " + (h * this.heightRatio));
+    },
+    aspect: function() {
+      return this.icon.w / this.icon.h;
+    },
+    innerWidth: function() {
+      return this.aspect * this.innerHeight;
+    },
+    outerWidth: function() {
+      var child, cw, i, len, ref, w;
+      w = this.innerWidth;
+      ref = this.children;
+      for (i = 0, len = ref.length; i < len; i++) {
+        child = ref[i];
+        cw = child.innerWidth * (1 + Math.abs(child.offsetX) / 50);
+        if (cw > w) {
+          w = cw;
+        }
+      }
+      return w;
+    },
+    widthRatio: function() {
+      return this.outerWidth / this.innerWidth;
+    },
+    innerHeight: function() {
+      return this.size * this.scale;
+    },
+    outerHeight: function() {
+      var ch, child, h, i, len, ref;
+      if (this.hcenter && (this.parent != null)) {
+        return this.parent.clientHeight;
+      }
+      h = this.innerHeight;
+      ref = this.children;
+      for (i = 0, len = ref.length; i < len; i++) {
+        child = ref[i];
+        ch = child.innerHeight * (1 + Math.abs(child.offsetY) / 50);
+        if (ch > h) {
+          h = ch;
+        }
+      }
+      return h;
+    },
+    heightRatio: function() {
+      return this.outerHeight / this.innerHeight;
+    },
+    flipped: function() {
+      if (!(this.flipH || this.flipV)) {
+        return null;
+      }
+      return "scale(" + (-this.flipV * 2 + 1) + "," + (-this.flipH * 2 + 1) + ")";
+    },
+    mergeStyle: function() {
+      var ref, style;
+      style = {
+        display: "inline-block",
+        height: this.outerHeight + "px"
+      };
+      if (((ref = this.children) != null ? ref.length : void 0) > 0) {
+        style.position = "relative";
+      }
+      return style;
+    }
+  }
+};
 
 </script>

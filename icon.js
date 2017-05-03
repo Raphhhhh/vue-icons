@@ -1,6 +1,15 @@
 ;(function(){
-var getIcon, getIcons;
-var camelize;
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+var camelize, getIcon, getIcons;
 
 camelize = function(str) {
   return str.replace(/-(\w)/g, function(_, c) {
@@ -11,6 +20,7 @@ camelize = function(str) {
     }
   });
 };
+
 getIcons = function() {};
 
 getIcons();
@@ -185,8 +195,20 @@ module.exports = {
   }
 };
 
+
 })()
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('span',{style:(_vm.computedStyle)},[_c('svg',{attrs:{"version":"1.1","role":_vm.label ? 'img' : 'presentation',"aria-label":_vm.label,"width":_vm.outerWidth,"height":_vm.outerHeight,"viewBox":_vm.box}},[_c('path',{attrs:{"d":_vm.icon.d,"transform":_vm.flipped,"fill":"currentColor"}})]),_vm._t("default")],2)}
+if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('span',{style:(_vm.computedStyle)},[_c('svg',{attrs:{"version":"1.1","role":_vm.label ? 'img' : 'presentation',"aria-label":_vm.label,"width":_vm.outerWidth,"height":_vm.outerHeight,"viewBox":_vm.box}},[_c('path',{attrs:{"d":_vm.icon.d,"transform":_vm.flipped,"fill":"currentColor"}})]),_vm._v(" "),_vm._t("default")],2)}
 __vue__options__.staticRenderFns = []
+if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-10a55952", __vue__options__)
+  } else {
+    hotAPI.reload("data-v-10a55952", __vue__options__)
+  }
+})()}

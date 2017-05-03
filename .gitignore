@@ -5,5 +5,4 @@ npm-debug.log
 build/bundle.js
 dev/index.js
 static
-*.js
 icons/
