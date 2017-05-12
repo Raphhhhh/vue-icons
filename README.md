@@ -1,5 +1,7 @@
 # vue-icons
 
+This is a refactoring of https://github.com/vue-comps/vue-icons, but which works with the new vue.js versions, and without coffee or pug.
+
 webpack based - load only what you need - svg inline icons.
 
 comes with (and prefixes):
